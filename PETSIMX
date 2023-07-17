@@ -7,8 +7,7 @@ debug.setupvalue(Client.Network.Fire, 1, function() return true end)
 
 function GetCoins(Area)
     local Coins = {}
-    local allCoins = Client.Network.Invoke('Get Coins')
-    for i, v in next, allCoins do 
+    for i,v in next, Client.Network.Invoke('Get Coins') do 
         if v.a == Area then 
             Coins[i] = v
         end 
@@ -20,12 +19,10 @@ function GetPets()
     return Client.PetCmds.GetEquipped() 
 end 
 
--- Collect all existing orbs
-for i, v in pairs(workspace.__THINGS.Orbs:GetChildren()) do 
+for i,v in pairs(workspace.__THINGS.Orbs:GetChildren()) do 
     Orbs.Collect(v)
 end 
 
--- Collect orbs when new ones are added
 workspace.__THINGS.Orbs.ChildAdded:Connect(function(v)
     Orbs.Collect(v)
 end)
@@ -34,12 +31,10 @@ while true do
     if _G.AutoFarm then
         local Pets = GetPets()
         local Coins = GetCoins(_G.Area or 'Town')
-        local coinParent = workspace.__THINGS.Coins -- Store the parent reference
-
-        for i, v in next, Coins do
-            if coinParent:FindFirstChild(i) and _G.AutoFarm then 
-                for _, Pet in next, Pets do 
-                    task.spawn(function()
+        for i,v in next, Coins do
+            if workspace.__THINGS.Coins:FindFirstChild(i) and _G.AutoFarm then 
+                for _,Pet in next, Pets do 
+                    spawn(function()
                         if _G.AutoFarm then
                             Client.Network.Invoke('Join Coin', i, {Pet.uid})
                             Client.Network.Fire('Farm Coin', i, Pet.uid)
@@ -47,7 +42,7 @@ while true do
                     end)
                 end 
             end 
-            repeat task.wait() until not coinParent:FindFirstChild(i)
+            repeat task.wait() until not workspace.__THINGS.Coins:FindFirstChild(i)
         end 
         task.wait()
     end
