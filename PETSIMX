@@ -20,8 +20,6 @@ function GetPets()
     return Client.PetCmds.GetEquipped() 
 end 
 
-local assignedCoins = {}  -- Table to store assigned coins and their assigned pets
-
 -- Collect all existing orbs
 for i, v in pairs(workspace.__THINGS.Orbs:GetChildren()) do 
     Orbs.Collect(v)
@@ -39,28 +37,17 @@ while true do
         local coinParent = workspace.__THINGS.Coins -- Store the parent reference
 
         for i, v in next, Coins do
-            if coinParent:FindFirstChild(i) and _G.AutoFarm and not assignedCoins[i] then 
-                -- Find an available pet to assign to the coin
-                local assignedPet = nil
+            if coinParent:FindFirstChild(i) and _G.AutoFarm then 
                 for _, Pet in next, Pets do 
-                    if not assignedPet then
-                        assignedPet = Pet
-                        break
-                    end
-                end 
-
-                if assignedPet then
-                    assignedCoins[i] = assignedPet.uid  -- Mark the coin as assigned to the pet
                     task.spawn(function()
                         if _G.AutoFarm then
-                            Client.Network.Invoke('Join Coin', i, {assignedPet.uid})
-                            Client.Network.Fire('Farm Coin', i, assignedPet.uid)
-                            repeat task.wait() until not coinParent:FindFirstChild(i)
-                            assignedCoins[i] = nil  -- Clear the assignment when the coin is no longer available
+                            Client.Network.Invoke('Join Coin', i, {Pet.uid})
+                            Client.Network.Fire('Farm Coin', i, Pet.uid)
                         end
                     end)
                 end 
             end 
+            repeat task.wait() until not coinParent:FindFirstChild(i)
         end 
         task.wait()
     end
