@@ -50,4 +50,6 @@ blackFrame.Parent = blackScreenGui
 
 blackScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
 
+wait(3)
+
 game.Players.LocalPlayer.PlayerGui.Mastery.Enabled = true
