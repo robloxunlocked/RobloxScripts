@@ -1,3 +1,5 @@
+game.Players.LocalPlayer.PlayerGui.Mastery.Enabled = true
+
 local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
 local g = game
 local w = g.Workspace
@@ -35,3 +37,17 @@ for i, e in pairs(l:GetChildren()) do
         e.Enabled = false
     end
 end
+
+-- Blackscreen
+
+local blackScreenGui = Instance.new("ScreenGui")
+blackScreenGui.Name = "BlackScreenGui"
+blackScreenGui.IgnoreGuiInset = true -- This line enables the IgnoreGuiInset property.
+
+local blackFrame = Instance.new("Frame")
+blackFrame.Name = "BlackFrame"
+blackFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+blackFrame.Size = UDim2.new(1, 0, 1, 0)
+blackFrame.Parent = blackScreenGui
+
+blackScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
