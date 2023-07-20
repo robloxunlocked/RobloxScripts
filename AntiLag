@@ -1,5 +1,3 @@
-game.Players.LocalPlayer.PlayerGui.Mastery.Enabled = true
-
 local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
 local g = game
 local w = g.Workspace
@@ -49,6 +47,7 @@ blackFrame.Name = "BlackFrame"
 blackFrame.BackgroundColor3 = Color3.new(0, 0, 0)
 blackFrame.Size = UDim2.new(1, 0, 1, 0)
 blackFrame.Parent = blackScreenGui
-blackFrame.ZIndex = -10
 
 blackScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+game.Players.LocalPlayer.PlayerGui.Mastery.Enabled = true
